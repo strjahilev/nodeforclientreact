@@ -5,7 +5,8 @@ app.use(bodyParser.json());
 
 const cors = require('cors');
 const corsOptions = {
-    origin: 'http://localhost:8081',
+    AccessControlAllowOrigin: 'http://localhost:8081',
+    // origin: 'http://localhost:8081',
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
