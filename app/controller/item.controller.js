@@ -14,3 +14,18 @@ exports.create = (req, res) => {
         });
     });
 };
+
+exports.findAll= (req,res) => {
+    Book.find()
+        .then(books =>{
+            let returnedBooks = [];
+            for (let i = 0; i < books.length; i++) {
+                returnedBooks.push(books[i].toClient());
+            }
+            res.send(returnedBooks);
+        }).catch(err => {
+        res.status(500).send({
+            message: err.message
+        });
+    });
+};

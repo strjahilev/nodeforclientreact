@@ -4,6 +4,7 @@ module.exports = function(app) {
 
     // Create a new Book
     app.post('/api/books/create', books.create);
+    app.get('/api/books', books.findAll);
 
     // Retrieve all Books
     // app.get('/api/books', items.findAll);
