@@ -29,3 +29,49 @@ exports.findAll= (req,res) => {
         });
     });
 };
+
+exports.update = (req, res) => {
+    // Find Book and update it
+    Book.findOneAndUpdate({ _id: req.params.bookId }, {
+        title: req.body.title,
+
+    }, {new: true})
+        .then(book => {
+            if(!book) {
+                return res.status(404).send({
+                    message: "Book not found with id " + req.params.bookId
+                });
+            }
+            res.send(book.toClient());
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Book not found with id " + req.params.bookId
+            });
+        }
+        return res.status(500).send({
+            message: "Error updating Book with id " + req.params.bookId
+        });
+    });
+};
+
+exports.delete = (req, res) => {
+    Book.findByIdAndRemove(req.params.bookId)
+        .then(book => {
+            if(!book) {
+                return res.status(404).send({
+                    message: "Book not found with id " + req.params.bookId
+                });
+            }
+            res.send({message: "Book deleted successfully!"});
+        }).catch(err => {
+        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+            return res.status(404).send({
+                message: "Book not found with id " + req.params.bookId
+            });
+        }
+        return res.status(500).send({
+            message: "Could not delete Book with id " + req.params.bookId
+        });
+    });
+};
